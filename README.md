@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Maple Robot Interaction App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application allows the Maple robot to interact with users by rendering scenarios that include images, audio, and motion commands sent to ROS. The scenarios are defined in JSON files and can be modified to fit different interactive sessions.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Ensure you have the following set up before running the application:
 
-### `npm start`
+1. **ROS (Robot Operating System)**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   Install and configure ROS (preferably ROS Noetic). Ensure that `roscore` is running before starting any ROS nodes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. **ROS Bridge**
 
-### `npm test`
+   Install and run `rosbridge` to enable WebSocket communication between ROS and the React app. You can install `rosbridge` using the command sudo apt-get install ros-noetic-rosbridge-server. To start `rosbridge`, run the command roslaunch rosbridge_server rosbridge_websocket.launch.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Node.js and npm**
 
-### `npm run build`
+   Install Node.js and npm to run the React application.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the Application
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Step 1: Start roscore
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Before running any ROS-dependent components, start the `roscore` by executing the command roscore in your terminal.
 
-### `npm run eject`
+### Step 2: Start rosbridge
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Run rosbridge to enable communication between the React app and ROS. You can do this by running roslaunch rosbridge_server rosbridge_websocket.launch.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Step 3: Start the React Application
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Navigate to the directory where your React app is located and run the following commands:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+npm install
+npm start
 
-## Learn More
+This will start the development server, and you can access the app in your browser at http://localhost:3000 or replace localhost with the IP of the server if accessing from another device under the same network.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Step 4: Place Audio and Image Files
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Audio Files**: Place the audio files in the public/[scenario_name]/audio/ directory. For example, if your scenario is named classroom_interaction, the audio files should be placed in public/classroom_interaction/audio/.
 
-### Code Splitting
+- **Image Files**: Place the image files in the public/[scenario_name]/img/ directory. For example, if your scenario is named classroom_interaction, the image files should be placed in public/classroom_interaction/img/.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Step 5: Define the Scenario File
 
-### Analyzing the Bundle Size
+The scenario file should be a JSON file and placed in the public/[scenario_name]/ directory.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+For an example scenario file structure, refer to scenario_config.txt under the public folder.
 
-### Making a Progressive Web App
+- **scenario_name**: The name of the scenario.
+- **states**: An array of states that define what should be displayed, played, and sent as a motion command for each state.
+- **image**: The filename of the image to be displayed.
+- **audio**: The filename of the audio to be played.
+- **motion**: The motion command to be sent to the robot, chosen from the names of predefined motions in the motion library.
+- **transition**: Defines how the transition to the next state occurs (e.g., after a set duration or through a correct answer being selected).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Step 6: Modify the Code to Change the Rendered Scenario
 
-### Advanced Configuration
+To change the scenario being rendered, modify the line where the scenario file is loaded in the App component:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+fetch('/classroom_interaction/scenario_config.json')
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Replace classroom_interaction with the name of your desired scenario.
