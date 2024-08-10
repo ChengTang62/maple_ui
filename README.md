@@ -55,8 +55,8 @@ For an example scenario file structure, refer to scenario_config.txt under the p
 - **audio**: The filename of the audio to be played.
 - **motion**: The motion command to be sent to the robot, chosen from the names of predefined motions in the motion library.
 - **transition**: Defines how the transition to the next state occurs chosen from time and feedback. If choose time, the state transition happens after a set duration; if choose feedback, the state transition happens automatically when the correct answer is selected.
-- **Options**: An array of options for the question, each of which shows up as a button
-- **Answer**: The correct answer among the options, which will trigger the state transition is clicked.
+- **options**: An array of options for the question, each of which shows up as a button
+- **answer**: The correct answer among the options, which will trigger the state transition is clicked.
 
 ### Step 6: Modify the Code to Change the Rendered Scenario
 
